@@ -48,6 +48,11 @@ dependencies {
 
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	// logback
+	implementation group: 'ch.qos.logback', name: 'logback-access', version: '1.2.9'
+	implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.12'
+	testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.9'
 }
 
 tasks.named('test') {

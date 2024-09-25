@@ -39,3 +39,7 @@ out/
 
 ### config yml ###
 application-**.yml
+
+
+### log ###
+*.log
