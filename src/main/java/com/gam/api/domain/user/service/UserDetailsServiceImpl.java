@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return GamUserDetails.builder()
                 .id(user.getId())
+                .user(user)
                 .authUserId(authUserId)
                 .username(user.getUserName())
                 .authorities(authorities)

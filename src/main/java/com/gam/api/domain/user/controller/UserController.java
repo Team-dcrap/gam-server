@@ -62,7 +62,7 @@ public class UserController {
             @AuthenticationPrincipal GamUserDetails userDetails,
             @PathVariable Long userId)
     {
-        val response = userService.getPortfolio(userDetails.getId(), userId);
+        val response = userService.getPortfolio(userDetails.getUser(), userId);
         return ResponseEntity.ok(ApiResponse.success(ResponseMessage.SUCCESS_GET_PROTFOLIO_LIST.getMessage(), response));
     }
 

@@ -1,5 +1,6 @@
 package com.gam.api.domain.user.repository;
 
+import com.gam.api.domain.user.entity.User;
 import com.gam.api.domain.user.entity.UserScrap;
 import com.gam.api.domain.user.dto.query.UserScrapQueryDto;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface UserScrapRepository extends JpaRepository<UserScrap, Long> {
+    List<UserScrap> findUserScrapsByUserId(Long userId);
     UserScrap findByUser_idAndTargetId(Long userId, Long targetId);
+
+    UserScrap findByUserAndTargetId(User user, Long targetId);
 
     @Query("SELECT DISTINCT NEW com.gam.api.domain.user.dto.query.UserScrapQueryDto(us.id, us.modifiedAt, us.targetId) "+
             "FROM UserScrap us " +

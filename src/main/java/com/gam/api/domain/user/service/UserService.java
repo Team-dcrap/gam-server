@@ -4,6 +4,7 @@ import com.gam.api.domain.user.dto.response.UserDiscoveryResponseDTO;
 import com.gam.api.domain.user.dto.response.UserResponseDTO;
 import com.gam.api.domain.user.dto.response.UserScrapsResponseDTO;
 import com.gam.api.domain.user.dto.response.SearchUserWorkDTO;
+import com.gam.api.domain.user.entity.User;
 import com.gam.api.domain.work.dto.response.WorkPortfolioGetResponseDTO;
 import com.gam.api.domain.work.dto.response.WorkPortfolioListResponseDTO;
 
@@ -32,7 +33,7 @@ public interface UserService {
     List<UserScrapsResponseDTO> getUserScraps(Long userId);
     List<UserResponseDTO> getPopularDesigners(Long userId);
     WorkPortfolioListResponseDTO getMyPortfolio(Long userId);
-    WorkPortfolioGetResponseDTO getPortfolio(Long requestUserId, Long userId);
+    WorkPortfolioGetResponseDTO getPortfolio(User requestUser, Long userId);
     List<UserDiscoveryResponseDTO> getDiscoveryUsers(Long userId, int[] tags);
     void updateInstagramLink(Long userId, UserUpdateLinkRequestDTO request);
     void updateBehanceLink(Long userId, UserUpdateLinkRequestDTO request);

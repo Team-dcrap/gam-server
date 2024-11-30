@@ -1,7 +1,9 @@
 package com.gam.api.domain.work.repository;
 
 import com.gam.api.domain.work.entity.Work;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -18,4 +20,8 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
     @Query(value = "SELECT w FROM Work w WHERE LOWER(w.title) LIKE LOWER(CONCAT('%', :keyword, '%')) ORDER BY w.createdAt DESC")
     List<Work> findByKeyword(String keyword);
     Optional<Work> findFirstByUserIdAndIsActiveOrderByCreatedAtDesc(Long userId, boolean isActive);
+
+    @Modifying
+    @Query("UPDATE Work w SET w.viewCount = w.viewCount + 1 WHERE w.id IN :ids")
+    void updateWorksViewCount(@Param("ids") List<Long> ids);
 }

@@ -11,7 +11,9 @@ import java.util.List;
 @Getter
 public class GamUserDetails implements UserDetails {
 
+    // TODO: User 객체 이전 이후 삭제 필요
     private final Long id;
+    private final User user;
     private final String username;
     private final String authUserId;
     private List<GrantedAuthority> authorities;
@@ -21,6 +23,11 @@ public class GamUserDetails implements UserDetails {
         return authorities;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    // TODO: User 객체 이전 이후 삭제 필요
     public Long getId() {
         return id;
     }

@@ -264,18 +264,19 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public WorkPortfolioGetResponseDTO getPortfolio(Long requestUserId, Long userId) {
-        val requestUser = findUser(requestUserId);
-        val user = findUser(userId);
+    public WorkPortfolioGetResponseDTO getPortfolio(User requestUser, Long userId) {
+        val user = findUserWithWorks(userId);
         user.setViewCount(user.getViewCount() + 1);
-        val works = getUserPortfolios(userId);
-        works.forEach(w -> w.viewCountUp());
+        val works = refineWorkList(user.getWorks());
 
-        val scrapList = requestUser.getUserScraps().stream()
-                .map(UserScrap::getTargetId)
-                .toList();
+        val workIds = works.stream()
+                        .map(Work::getId)
+                        .toList();
 
-        val isScraped = scrapList.contains(user.getId());
+        workRepository.updateWorksViewCount(workIds);
+
+        val userScrap = userScrapRepository.findByUserAndTargetId(requestUser, user.getId());
+        val isScraped = Objects.isNull(userScrap);
 
         return WorkPortfolioGetResponseDTO.of(isScraped, user, works);
     }
@@ -365,8 +366,22 @@ public class UserServiceImpl implements UserService {
         return works;
     }
 
+    private List<Work> refineWorkList(List<Work> works) {
+        return works
+                .stream()
+                .filter(Work::isActive)
+                .sorted(Comparator.comparing(Work::isFirst, Comparator.reverseOrder())
+                        .thenComparing(Comparator.comparing(Work::getCreatedAt).reversed()))
+                .collect(Collectors.toList());
+    }
+
     private User findUser(Long userId) {
         return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessage.NOT_FOUND_USER.getMessage()));
+    }
+
+    private User findUserWithWorks(Long userId) {
+        return userRepository.getUserByIdWithWorks(userId)
                 .orElseThrow(() -> new EntityNotFoundException(ExceptionMessage.NOT_FOUND_USER.getMessage()));
     }
 

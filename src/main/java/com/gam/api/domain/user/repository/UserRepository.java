@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> getUserById(Long userId);
     boolean existsByUserName(String userName);
 
+    @Query("SELECT u FROM User u JOIN FETCH u.works WHERE u.id = :userId")
+    Optional<User> getUserByIdWithWorks(@Param("userId") Long userId);
+
     List<User> findByUserStatusAndFirstWorkIdIsNotNullOrderByScrapCountDesc(UserStatus userStatus);
 
     @Query(value = "SELECT u FROM User u WHERE LOWER(u.userName) LIKE %:keyword% ORDER BY u.createdAt DESC")
