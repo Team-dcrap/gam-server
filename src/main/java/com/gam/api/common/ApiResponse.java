@@ -27,4 +27,9 @@ public record ApiResponse(boolean success, String message, Object data) {
                 .build();
     }
 
+    public static ApiResponse serverError(Object object){
+        return ApiResponse.builder()
+                .data(object)
+                .build();
+    }
 }

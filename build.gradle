@@ -48,6 +48,12 @@ dependencies {
 
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	// slack 알림
+	implementation 'com.slack.api:slack-api-client:1.27.2'
+
+	// slack DTO json Formatting
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 }
 
 tasks.named('test') {
